@@ -1,0 +1,12 @@
+.bg-light {
+  background-color: #90959bb3 !important;
+}
+
+.login-card {
+  margin: 40px auto;
+  width: 40%;
+}
+
+.right {
+  float: right;
+}
