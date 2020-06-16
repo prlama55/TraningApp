@@ -19,6 +19,7 @@ const Login: FC = () => {
     if (status == 200) {
       sessionStorage.setItem("auth", JSON.stringify(data));
     }
+  window.location.href='/'
   };
   return (
     <div className="container">
