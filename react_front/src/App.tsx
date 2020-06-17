@@ -35,7 +35,7 @@ function App() {
 
             <BrowserRouter>
                 <Switch>
-                    {auth.username &&
+                    {auth.username!=='' &&
                     <>
                         <Route path='/' render={props=><Header username={auth.username} {...props}/>}/>
                         <Switch>

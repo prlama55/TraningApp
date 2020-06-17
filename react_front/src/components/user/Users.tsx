@@ -1,24 +1,20 @@
 import React, {FC, useEffect, useState} from "react";
 import {RouteComponentProps} from 'react-router-dom'
-import axios from "axios";
-interface User {
-    username: string
-    userType: string
-    createdAt: string
-}
+import {User} from '../../@types/User'
+import {AxiosConfig} from "../../@types";
+import {fetchService} from "../../services";
 const Users: FC<RouteComponentProps> = (props: RouteComponentProps) => {
     const [users, setUsers]= useState([])
-    const auth= sessionStorage.getItem('auth')
     useEffect( ()=>{
-        let token
-        if(auth){
-            token= JSON.parse(auth).accessToken
-            const baseUrl = "http://localhost:5000/api/users";
-            axios.get(baseUrl,{headers:{'Authorization': `Bearer ${token}`}}).then(({data, status})=>{
-                console.log("data===",data)
-                setUsers(data.data)
-            })
+        const params: AxiosConfig={
+            url: '/users',
+            method: 'GET',
         }
+        fetchService(params).then(({data})=>{
+            setUsers(data)
+        }).catch(err=>{
+            console.log(err)
+        })
 
     },[])
     return users.length>0 ? (

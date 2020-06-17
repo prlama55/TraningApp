@@ -1,34 +1,38 @@
 import React, { FC, useState } from "react";
-import axios from "axios";
-interface UserLogin {
-  username: string;
-  password: string;
-  userType: string
-}
-const Registration: FC = () => {
-  const initialState: UserLogin = {
+import {RouteComponentProps} from 'react-router-dom'
+import {UserRegistration} from "../../@types/User";
+import {AxiosConfig} from "../../@types";
+import {fetchService} from "../../services";
+const Registration: FC<RouteComponentProps> = (props: RouteComponentProps) => {
+  const initialState: UserRegistration = {
     username: "",
     password: "",
     userType: "",
   };
   const [formData, setFormData] = useState(initialState);
-  //   const [username, setUsername] = useState("");
-  //   const [password, setPassword] = useState("");
-
+  const [message, setMessage] = useState('');
   const userLogin = async () => {
-    const baseUrl = "http://localhost:5000/api/registration";
-    const { data, status } = await axios.post(baseUrl, formData);
-    if (status == 200) {
-      sessionStorage.setItem("auth", JSON.stringify(data));
+    const params: AxiosConfig={
+      url: '/registration',
+      method: 'POST',
+      data: formData
     }
-  window.location.href='/'
+    const { data } = await fetchService(params);
+    console.log("data====",data)
+    if(data) setMessage('Successfully registered.')
+    props.history.push(`/login?message=Successfully registered.`)
   };
   return (
     <div className="container">
       <div className="card card-info login-card">
         <div className="card-header">
-          <h4>User Login FormData: {JSON.stringify(formData)}</h4>
+          <h4>User Registration</h4>
         </div>
+        {message!=='' &&
+        <div className='alert'>
+          {message}
+        </div>
+        }
         <form action="#" className="form">
           <div className="card-body">
             <div className="form-group">
