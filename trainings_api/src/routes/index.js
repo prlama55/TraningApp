@@ -15,4 +15,5 @@ module.exports = (app) => {
 
   // user login
   app.post("/api/login", controllers.login);
+  app.post("/api/registration", controllers.createUser);
 };

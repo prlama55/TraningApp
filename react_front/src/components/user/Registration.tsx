@@ -1,21 +1,22 @@
 import React, { FC, useState } from "react";
 import axios from "axios";
-import {RouteComponentProps} from 'react-router-dom'
 interface UserLogin {
   username: string;
   password: string;
+  userType: string
 }
-const Login: FC<RouteComponentProps> = (props:RouteComponentProps) => {
+const Registration: FC = () => {
   const initialState: UserLogin = {
     username: "",
     password: "",
+    userType: "",
   };
   const [formData, setFormData] = useState(initialState);
   //   const [username, setUsername] = useState("");
   //   const [password, setPassword] = useState("");
 
   const userLogin = async () => {
-    const baseUrl = "http://localhost:5000/api/login";
+    const baseUrl = "http://localhost:5000/api/registration";
     const { data, status } = await axios.post(baseUrl, formData);
     if (status == 200) {
       sessionStorage.setItem("auth", JSON.stringify(data));
@@ -65,21 +66,26 @@ const Login: FC<RouteComponentProps> = (props:RouteComponentProps) => {
                 }}
               />
             </div>
-            <div className="form-group right">
-              <a href="#"
-                 onClick={()=>{
-                   props.history.push('/register')
-                 }}
-                 className="btn m-2"
+            <div className="form-group">
+              <strong>User Type</strong>
+              <select className='form-control'
+                      onChange={(elm) => {
+                        setFormData({
+                          ...formData,
+                          userType: elm.target.value,
+                        });
+                      }}
               >
-                Register
-              </a>
+                {["Customer", "Business"].map((userType, i)=>(<option key={i} value={userType}>{userType}</option>))}
+              </select>
+            </div>
+            <div className="form-group right">
               <button
                 type="button"
                 onClick={userLogin}
                 className="btn btn-primary"
               >
-                Login
+                Register
               </button>
 
             </div>
@@ -90,4 +96,4 @@ const Login: FC<RouteComponentProps> = (props:RouteComponentProps) => {
   );
 };
 
-export default Login;
+export default Registration;
