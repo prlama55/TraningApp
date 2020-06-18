@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import {NavLink} from 'react-router-dom'
 import {RouteComponentProps} from 'react-router-dom'
 interface Props extends RouteComponentProps{
@@ -6,25 +6,6 @@ interface Props extends RouteComponentProps{
 }
 const Header: FC<Props> = (props: Props) => {
   const {history}= props
-  // const menus = [
-  //   //   { id: "home", text: "Home" },
-  //   //   { id: "services", text: "Services" },
-  //   // ];
-  // //   const [counter, setCounter] = useState(0);
-  // const [menuItems] = useState(menus);
-  //
-  // const counterMenu = {
-  //   menus: menus,
-  //   counter: 0,
-  // };
-  // const [menuItemsCounter, setMenuItemsCounter] = useState(counterMenu);
-  // console.log("menuItems===>>>", JSON.stringify(props));
-  // const changeMenu = () => {
-  //   setMenuItemsCounter({
-  //     menus: [{ id: "1", text: "Customer" }], // menu, counter
-  //     counter: menuItemsCounter.counter + 1,
-  //   });
-  // };
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -53,6 +34,12 @@ const Header: FC<Props> = (props: Props) => {
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to='/users/create'>Create User</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to='/business'>Business</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to='/business/create'>Create Business</NavLink>
             </li>
           </ul>
           <a href='#' className='btn btn-primary' onClick={()=>{
