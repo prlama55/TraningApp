@@ -11,6 +11,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import PageNotFound from "./components/PageNotFound";
 import UserRoutes from "./components/user/UserRoutes";
 import Registration from "./components/user/Registration";
+import BusinessRoutes from "./components/business/BusinessRoutes";
 interface Auth {
     username: string
 }
@@ -40,13 +41,14 @@ function App() {
                         <Route path='/' render={props=><Header username={auth.username} {...props}/>}/>
                         <Switch>
                             <Route path='/' render={props=><Dashboard {...props}/>} exact/>
+                            <Route path='/business' component={BusinessRoutes}/>
                             <Route path='/users' component={UserRoutes}/>
                         </Switch>
                     </>
                     }
                     {auth.username==='' &&
                     <>
-                        <Route path='/login' component={Login}/>
+                        <Route path='/' component={Login}/>
                         <Route path='/register' component={Registration}/></>
                     }
                     <Route component={PageNotFound}/>

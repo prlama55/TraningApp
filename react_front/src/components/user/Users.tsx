@@ -11,12 +11,13 @@ const Users: FC<RouteComponentProps> = (props: RouteComponentProps) => {
             method: 'GET',
         }
         fetchService(params).then(({data})=>{
-            setUsers(data)
+            setUsers(data.data)
         }).catch(err=>{
             console.log(err)
         })
 
     },[])
+    console.log("users===",users)
     return users.length>0 ? (
         <div className='container-fluid'>
             <table className='table table-bordered table-hover mt-4'>

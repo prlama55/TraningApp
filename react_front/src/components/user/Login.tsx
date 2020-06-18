@@ -26,7 +26,12 @@ const Login: FC<RouteComponentProps> = (props:RouteComponentProps) => {
     console.log("props====",props)
     const query: any= queryString.parse(props.location.search)
     console.log("query====",query)
-    props.history.push(query.redirectUrl)
+    if(query.redirectUrl){
+      props.history.push(query.redirectUrl)
+    }
+    else{
+      props.history.push('/users')
+    }
   };
 
   return (

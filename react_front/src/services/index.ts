@@ -5,6 +5,7 @@ import StorageService from "./Storage";
 
 const getHeaders=()=>{
     const auth= StorageService.get(config.AUTH_KEY)
+    console.log("auth====>>>>>>",auth)
     let token
     if(auth){
         token = JSON.parse(auth).accessToken
@@ -24,7 +25,7 @@ const getHeaders=()=>{
 export const fetchService= async (axiosConfig: AxiosConfig)=>{
     const requestParams ={
         baseURL: config.API_BASE_URL,
-        headers: {...axiosConfig.headers, ...getHeaders },
+        headers: {...axiosConfig.headers, ...getHeaders() },
         ...axiosConfig
     }
     try{
@@ -39,7 +40,7 @@ export const fetchService= async (axiosConfig: AxiosConfig)=>{
             throw new Error("Something errors")
         }
     }catch (e) {
-        console.log("=====",e.data, e.statusCode)
+        console.log("=====",e)
         return {
             data: e.data, status: e.statusCode
         }
