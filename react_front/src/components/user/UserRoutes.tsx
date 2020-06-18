@@ -7,8 +7,8 @@ import UserCreate from "./UserCreate";
 const UserRoutes=()=>{
     return(
         <Switch>
-            <Route path='/users' component={Users} exact/>
-            <Route path='/users/:id/details' exact component={UserDetails}/>
+            <Route path='/users' render={props => <Users {...props}/>} exact/>
+            <Route path='/users/:id/details' exact render={props => <UserDetails {...props}/>}/>
             <Route path='/users/create' exact component={UserCreate}/>
         </Switch>
     )

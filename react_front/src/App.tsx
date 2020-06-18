@@ -5,11 +5,12 @@ import Header from "./components/layouts/Header";
 import Dashboard from "./components/dashboard";
 
 // import Cards from "./components/dashboard/Cards";
- import Login from "./components/user/Login";
+import Login from "./components/user/Login";
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
-import Users from "./components/user/Users";
+// import Users from "./components/user/Users";
 import PageNotFound from "./components/PageNotFound";
 import UserRoutes from "./components/user/UserRoutes";
+import Registration from "./components/user/Registration";
 interface Auth {
     username: string
 }
@@ -29,24 +30,31 @@ function App() {
         }
     },[]);
     console.log("auth========",auth)
-  return (
-      <div>
-          {auth.username &&
-          <BrowserRouter>
-              <Header username="Padma"/>
-              {/*<Route path='/' children={(pro)<Header/>} exact/>*/}
-              <Switch>
-                  <Route path='/' component={Dashboard} exact/>
-                  <Route path='/users' component={UserRoutes}/>
-                  <Route component={PageNotFound}/>
-              </Switch>
-          </BrowserRouter>
-          }
-          {auth.username==='' &&
-          <Login/>
-          }
-      </div>
-  );
+    return (
+        <div>
+
+            <BrowserRouter>
+                <Switch>
+                    {auth.username!=='' &&
+                    <>
+                        <Route path='/' render={props=><Header username={auth.username} {...props}/>}/>
+                        <Switch>
+                            <Route path='/' render={props=><Dashboard {...props}/>} exact/>
+                            <Route path='/users' component={UserRoutes}/>
+                        </Switch>
+                    </>
+                    }
+                    {auth.username==='' &&
+                    <>
+                        <Route path='/login' component={Login}/>
+                        <Route path='/register' component={Registration}/></>
+                    }
+                    <Route component={PageNotFound}/>
+                </Switch>
+            </BrowserRouter>
+
+        </div>
+    );
 }
 
 export default App;

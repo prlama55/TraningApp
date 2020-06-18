@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import Cards from "./Cards";
 import Charts from "./Charts";
-interface Props {
+import {RouteComponentProps} from 'react-router-dom'
+interface Props extends RouteComponentProps<any>{
   title?: string;
 }
 interface User {
@@ -19,7 +20,15 @@ class Dashboard extends Component<Props, State> {
   //   cardData: { header: "Card", body: "Body", footer: "Footer" },
   //   tableData: [],
   // };
-  constructor(props: Props) {
+    componentDidMount(): void {
+        let getAuthFromSession= sessionStorage.getItem("auth");
+        if(!getAuthFromSession){
+            // @ts-ignore
+            this.props.history('/login')
+        }
+    }
+
+    constructor(props: Props) {
     super(props);
     this.state = {
       chartData: { c1: [1, 2, 3] },
