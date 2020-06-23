@@ -1,8 +1,21 @@
 import React, { Component } from "react";
 import Cards from "./Cards";
 import Charts from "./Charts";
+import {connect} from "react-redux";
 import {RouteComponentProps} from 'react-router-dom'
-interface Props extends RouteComponentProps<any>{
+import {Auth, AuthState} from "../../@types/UserState";
+
+
+const mapStateToProps=(state: AuthState): MapStateToProps=>{
+    return {
+        auth: state.auth
+    }
+}
+interface MapStateToProps {
+    auth?: Auth
+}
+
+interface Props extends RouteComponentProps, MapStateToProps{
   title?: string;
 }
 interface User {
@@ -40,6 +53,7 @@ class Dashboard extends Component<Props, State> {
     const { chartData, cardData } = this.state;
     return (
       <div>
+          {JSON.stringify(this.props.auth)}
         <Cards title="card1" cardData={cardData} />
         <Cards title="card2" cardData={cardData} />
         <Cards title="card3" cardData={cardData} />
@@ -51,4 +65,4 @@ class Dashboard extends Component<Props, State> {
   }
 }
 
-export default Dashboard;
+export default connect(mapStateToProps, null)(Dashboard);

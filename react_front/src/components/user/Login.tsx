@@ -6,7 +6,30 @@ import StorageService from "../../services/Storage";
 import {AxiosConfig} from "../../@types";
 import {fetchService} from "../../services";
 import queryString from 'query-string'
-const Login: FC<RouteComponentProps> = (props:RouteComponentProps) => {
+import {Auth, AuthState} from "../../@types/UserState";
+import {Dispatch} from 'redux'
+import { setAuth } from "../../actions/authAction";
+import {connect} from "react-redux";
+
+const mapStateToProps=(state: AuthState): MapStateToProps=>{
+  return {
+    auth: state.auth
+  }
+}
+
+const mapDispatchToProps=(dispatch: Dispatch)=>{
+  return {
+    userLogin:(auth: Auth)=> dispatch(setAuth(auth))
+  }
+}
+interface MapStateToProps {
+  auth: Auth
+}
+interface MapDispatchToProps {
+  userLogin: (auth: Auth)=>void
+}
+type Props= MapStateToProps & MapDispatchToProps & RouteComponentProps
+const Login: FC<Props> = (props:Props) => {
   const initialState: UserLogin = {
     username: "",
     password: "",
@@ -19,21 +42,19 @@ const Login: FC<RouteComponentProps> = (props:RouteComponentProps) => {
       data: formData
     }
     const { data } = await fetchService(params);
-    console.log("data===",data)
     if (data) {
+      props.userLogin(data)
       StorageService.save(config.AUTH_KEY, JSON.stringify(data));
     }
-    console.log("props====",props)
     const query: any= queryString.parse(props.location.search)
-    console.log("query====",query)
-    props.history.push(query.redirectUrl)
+    props.history.push('/dashboard')
   };
 
   return (
       <div className="container">
         <div className="card card-info login-card">
           <div className="card-header">
-            <h4>User Login FormData: {JSON.stringify(formData)}</h4>
+            <h4>User Login FormData: {JSON.stringify(props.auth)}</h4>
           </div>
           <form action="#" className="form">
             <div className="card-body">
@@ -97,4 +118,4 @@ const Login: FC<RouteComponentProps> = (props:RouteComponentProps) => {
   );
 };
 
-export default Login;
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
